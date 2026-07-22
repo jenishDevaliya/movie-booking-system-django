@@ -1,0 +1,178 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>{{ movie.title }}</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+
+        body{
+            background:#f5f7fa;
+            font-family:Arial, sans-serif;
+        }
+
+        .movie-box{
+            background:#fff;
+            margin-top:50px;
+            margin-bottom:50px;
+            padding:35px;
+            border-radius:15px;
+            box-shadow:0 10px 30px rgba(0,0,0,.12);
+        }
+
+        .movie-img{
+            width:100%;
+            height:550px;
+            object-fit:cover;
+            border-radius:15px;
+        }
+
+        table td{
+            padding:12px;
+            vertical-align:middle;
+        }
+
+        .title-col{
+            width:180px;
+            font-weight:bold;
+            color:#444;
+            background:#f8f9fa;
+        }
+
+        .btn-book{
+            padding:12px 40px;
+            border-radius:30px;
+            font-size:18px;
+            font-weight:600;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="movie-box">
+
+        <div class="row">
+
+            <!-- Movie Poster -->
+            <div class="col-lg-4">
+
+                {% if movie.poster %}
+                    <img src="{{ movie.poster.url }}" class="movie-img">
+                {% else %}
+                    <img src="{% static 'images/no-image.png' %}" class="movie-img">
+                {% endif %}
+
+            </div>
+
+            <!-- Movie Details -->
+            <div class="col-lg-8">
+
+                <h2 class="fw-bold mb-4">
+                    {{ movie.title }}
+                </h2>
+
+                <table class="table table-bordered">
+
+                    <tr>
+    <td class="title-col fw-semibold">Movie Name</td>
+    <td>
+        {{ movie.title }}
+
+        {% if movie.trailer %}
+            <a href="{{ movie.trailer }}"
+               target="_blank"
+               class="ms-2 text-primary text-decoration-none">
+                (View Trailer)
+            </a>
+        {% endif %}
+    </td>
+</tr>
+
+                    <tr>
+                        <td class="title-col">Certificate</td>
+                        <td>{{ movie.certificate|default:"N/A" }}</td>
+                    </tr>
+
+                    <tr>
+                        <td class="title-col">Type</td>
+                        <td>{{ movie.movie_type|default:"N/A" }}</td>
+                    </tr>
+
+                    <tr>
+                        <td class="title-col">Language</td>
+                        <td>{{ movie.language|default:"N/A" }}</td>
+                    </tr>
+
+                    <tr>
+                        <td class="title-col">Duration</td>
+                        <td>{{ movie.duration|default:"N/A" }}</td>
+                    </tr>
+
+                    <tr>
+                        <td class="title-col">Genre</td>
+                        <td>{{ movie.genre.name }}</td>
+                    </tr>
+
+                    <tr>
+                        <td class="title-col">Release Year</td>
+                        <td>{{ movie.release_year }}</td>
+                    </tr>
+
+                    <tr>
+                        <td class="title-col">Director</td>
+                        <td>{{ movie.director.d_name }}</td>
+                    </tr>
+
+                    <tr>
+                        <td class="title-col">Cast</td>
+                        <td>
+                            {% for actor in movie.actors.all %}
+                                {{ actor.a_name }}{% if not forloop.last %}, {% endif %}
+                            {% empty %}
+                                N/A
+                            {% endfor %}
+                        </td>
+                    </tr>
+
+                    
+
+                    <tr>
+                        <td class="title-col">Description</td>
+                        <td>{{ movie.description }}</td>
+                    </tr>
+
+                    <tr>
+    <td class="text-center">
+       <a href="{% url 'theater_selection' movie.id %}"
+   class="btn btn-danger btn-sm rounded-pill px-4">
+    Book Now
+</a>
+    </td>
+</tr>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

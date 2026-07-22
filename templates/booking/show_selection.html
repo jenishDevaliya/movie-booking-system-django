@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+
+{% block title %}
+Select Show
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+        <h2 class="fw-bold text-danger">{{ movie.title }}</h2>
+        <h4>{{ theater.theater_name }}</h4>
+        <p class="text-muted">{{ theater.address }}</p>
+    </div>
+
+    <div class="row">
+
+        {% for show in shows %}
+
+        <div class="col-lg-4 col-md-6 mb-4">
+
+            <div class="card shadow-lg border-0 h-100">
+
+                <div class="card-header bg-danger text-white text-center">
+                    <h5 class="mb-0">
+                        {{ show.screen.screen_name }}
+                    </h5>
+                </div>
+
+                <div class="card-body">
+
+                    <p>
+                        <strong> Screen Type :</strong>
+                        {{ show.screen.screen_type }}
+                    </p>
+
+                    <p>
+                        <strong> Date :</strong>
+                        {{ show.show_date }}
+                    </p>
+
+                    <p>
+                        <strong> Time :</strong>
+                        {{ show.show_time }}
+                    </p>
+
+                    <p>
+                        <strong> Ticket Price :</strong>
+                        ₹{{ show.ticket_price }}
+                    </p>
+
+                    {% if show.is_active %}
+                    <span class="badge bg-success">
+                        Available
+                    </span>
+                    {% else %}
+                    <span class="badge bg-danger">
+                        Closed
+                    </span>
+                    {% endif %}
+
+                </div>
+
+                <div class="card-footer bg-white border-0">
+
+                    {% if show.is_active %}
+                    <a href="{% url 'seat_selection' show.id %}"
+                       class="btn btn-danger w-100">
+                        Select Seats
+                    </a>
+                    {% else %}
+                    <button class="btn btn-secondary w-100" disabled>
+                        Not Available
+                    </button>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+
+            <div class="alert alert-warning text-center">
+
+                <h5>No Shows Available</h5>
+
+                <p>
+                    Please add show timings from the Django Admin panel.
+                </p>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

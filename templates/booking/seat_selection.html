@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block title %}
+Seat Selection
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <!-- Page Header -->
+    <div class="text-center mb-5">
+
+        <h2 class="fw-bold text-danger">
+             {{ show.movie.title }}
+        </h2>
+
+        <h4 class="fw-semibold">
+            {{ show.screen.theater.theater_name }}
+        </h4>
+
+        <p class="text-muted mb-1">
+             {{ show.show_date }} |
+             {{ show.show_time }}
+        </p>
+
+        <h5 class="text-success">
+             Ticket Price : ₹{{ show.ticket_price }}
+        </h5>
+
+    </div>
+
+    
+    <!-- Seat Selection -->
+    <div class="card shadow-lg border-0">
+
+        <div class="card-header bg-danger text-white text-center">
+            <h4 class="mb-0">
+                 Book Your Seats
+            </h4>
+        </div>
+
+        <div class="card-body">
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+                <div class="row justify-content-center">
+
+                    {% for seat in seats %}
+
+                    <div class="col-auto mb-3">
+
+                        <input
+                            type="checkbox"
+                            class="btn-check"
+                            id="seat{{ seat.id }}"
+                            name="seats"
+                            value="{{ seat.id }}">
+
+                        <label
+                            class="btn btn-outline-success"
+                            for="seat{{ seat.id }}">
+                            {{ seat.seat_number }}
+                        </label>
+
+                    </div>
+
+                    {% empty %}
+
+                    <div class="col-12">
+
+                        <div class="alert alert-warning text-center">
+                            No Seats Available.
+                        </div>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                <hr>
+
+                <!-- Legend -->
+
+                <div class="text-center mb-4">
+
+                    <span class="badge bg-success me-2">
+                        Available
+                    </span>
+
+                    <span class="badge bg-primary me-2">
+                        Selected
+                    </span>
+
+                    <span class="badge bg-secondary">
+                        Booked
+                    </span>
+
+                </div>
+
+                <!-- Booking Summary -->
+
+                <div class="card border-success mb-4">
+
+                    <div class="card-header bg-success text-white">
+                        Booking Summary
+                    </div>
+
+                    <div class="card-body">
+
+                        <p>
+                            <strong>Selected Seats :</strong>
+                            <span id="selectedSeats">None</span>
+                        </p>
+
+                        <p>
+                            <strong>Total Seats :</strong>
+                            <span id="totalSeats">0</span>
+                        </p>
+
+                        <p class="mb-0">
+                            <strong>Total Amount :</strong>
+                            <span id="totalAmount">₹0</span>
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <!-- Buttons -->
+
+                <div class="d-flex justify-content-between">
+
+                    <a href="{% url 'show_selection' show.movie.id show.screen.theater.id %}"
+                       class="btn btn-secondary btn-lg">
+                        ← Back
+                    </a>
+
+                    <button
+                        type="submit"
+                        class="btn btn-danger btn-lg">
+                        Continue Booking →
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const checkboxes = document.querySelectorAll(".btn-check");
+    const selectedSeats = document.getElementById("selectedSeats");
+    const totalSeats = document.getElementById("totalSeats");
+    const totalAmount = document.getElementById("totalAmount");
+
+    const ticketPrice = parseFloat("{{ show.ticket_price }}");
+
+    function updateSelection() {
+
+        let seats = [];
+
+        checkboxes.forEach(function(box){
+
+            if(box.checked){
+                seats.push(box.nextElementSibling.innerText.trim());
+            }
+
+        });
+
+        selectedSeats.innerText =
+            seats.length ? seats.join(", ") : "None";
+
+        totalSeats.innerText = seats.length;
+
+        totalAmount.innerText =
+            "₹" + (ticketPrice * seats.length).toFixed(2);
+
+    }
+
+    checkboxes.forEach(function(box){
+        box.addEventListener("change", updateSelection);
+    });
+
+});
+</script>
+
+{% endblock %}

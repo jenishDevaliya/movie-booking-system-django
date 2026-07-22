@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<div class="hero-section text-white">
+
+    <div class="container h-100">
+
+        <div class="row h-100 justify-content-center align-items-center">
+
+            <div class="col-lg-8 text-center">
+
+               
+
+               
+
+                <h2 class="display-9 fw-bold text-danger mb-4">
+                    LET'S ENJOY MOVIES & BOOK MOVIE TICKETS
+                </h2>
+
+              
+                <a href="{% url 'movie_list' %}"
+                   class="btn btn-info btn-lg rounded-pill px-5 py-3">
+                    BOOK NOW
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- ================= Movies Section ================= -->
+
+<div class="container my-5">
+
+    <h2 id="movies" class="fw-bold mb-3">
+         ALL MOVIES
+    </h2>
+
+    <!-- Language Filter -->
+
+    <div class="mb-5">
+
+        <button class="btn btn-danger rounded-pill px-4 me-2 mb-2">
+            All
+        </button>
+
+        <button class="btn btn-outline-danger rounded-pill px-4 me-2 mb-2">
+            Hindi
+        </button>
+
+        <button class="btn btn-outline-danger rounded-pill px-4 me-2 mb-2">
+            English
+        </button>
+
+        <button class="btn btn-outline-danger rounded-pill px-4 me-2 mb-2">
+            Tamil
+        </button>
+
+        <button class="btn btn-outline-danger rounded-pill px-4 me-2 mb-2">
+            Telugu
+        </button>
+
+    </div>
+
+    <div class="row">
+
+        {% for movie in movies %}
+
+        <div class="col-lg-4 col-md-6 mb-4">
+
+            <div class="card movie-card shadow-lg border-0 h-100">
+
+                {% if movie.poster %}
+
+             <img src="{{ movie.poster.url }}"
+     class="card-img-top movie-img">
+                {% else %}
+
+               <img src="{% static 'images/no-image.png' %}"
+     class="card-img-top">
+
+                {% endif %}
+
+               
+
+                <div class="card-footer bg-white text-center border-0">
+
+    <a href="#"
+       class="btn btn-danger rounded-pill px-5">
+       >>> BOOK NOW
+    </a>
+
+</div>
+
+</div>
+
+</div>
+
+                
+
+        {% empty %}
+
+        <div class="col-12 text-center">
+
+            <img src="{% static 'images/no-movie.png' %}"
+                 width="180"
+                 class="mb-3">
+
+            <h3>No Movies Available</h3>
+
+            <p class="text-muted">
+                Movies will appear here after adding them from the Admin Panel.
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'accounts',
     'movies',
     'theaters',
-    'bookings',
+    'booking',
+
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,12 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
+AUTH_USER_MODEL = "accounts.User"
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+LOGIN_URL = "login"
+LOGIN_REDIRECT_URL = "home"
+LOGOUT_REDIRECT_URL = "login"

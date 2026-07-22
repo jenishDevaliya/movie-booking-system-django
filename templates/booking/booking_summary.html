@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+
+{% block title %}
+Booking Summary
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <h2 class="fw-bold text-danger">
+            Booking Summary
+        </h2>
+
+        <p class="text-muted">
+            Please verify your booking details before proceeding to payment.
+        </p>
+
+    </div>
+
+    <div class="card shadow-lg">
+
+        <div class="card-header bg-danger text-white">
+
+            <h4 class="mb-0">
+                Booking Details
+            </h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered">
+
+                <tr>
+                    <th width="35%"> Movie</th>
+                    <td>{{ show.movie.title }}</td>
+                </tr>
+
+                <tr>
+                    <th> Theater</th>
+                    <td>{{ show.screen.theater.theater_name }}</td>
+                </tr>
+
+                <tr>
+                    <th> Screen</th>
+                    <td>{{ show.screen.screen_name }}</td>
+                </tr>
+
+                <tr>
+                    <th> Show Date</th>
+                    <td>{{ show.show_date }}</td>
+                </tr>
+
+                <tr>
+                    <th> Show Time</th>
+                    <td>{{ show.show_time }}</td>
+                </tr>
+
+                <tr>
+                    <th> Selected Seats</th>
+                    <td>
+                        {% for seat in seats %}
+                            <span class="badge bg-success">
+                                {{ seat.seat_number }}
+                            </span>
+                        {% empty %}
+                            No Seat Selected
+                        {% endfor %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th> Total Seats</th>
+                    <td>{{ total_seats }}</td>
+                </tr>
+
+                <tr>
+                    <th> Ticket Price</th>
+                    <td>₹{{ show.ticket_price }}</td>
+                </tr>
+
+                <tr class="table-warning">
+
+                    <th>
+                        Total Amount
+                    </th>
+
+                    <td>
+                        <strong>
+                            ₹{{ total_amount }}
+                        </strong>
+                    </td>
+
+                </tr>
+
+            </table>
+
+            <div class="d-flex justify-content-between mt-4">
+
+                <a href="{% url 'seat_selection' show.id %}"
+                   class="btn btn-secondary btn-lg">
+                    ← Back
+                </a>
+
+               <a href="#" class="btn btn-danger btn-lg">
+    Proceed to Payment →
+</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

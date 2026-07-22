@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2 class="text-center mb-4">Now Showing</h2>
+
+<div class="row">
+
+{% for movie in movies %}
+
+<div class="col-md-4 mb-4">
+
+    <div class="card shadow">
+
+        <img src="{{ movie.poster.url }}" class="card-img-top" height="400">
+
+        <div class="card-body">
+
+            <h4>{{ movie.title }}</h4>
+
+            <p>{{ movie.genre.name }}</p>
+
+            <p>{{ movie.description|truncatewords:20 }}</p>
+
+            <strong>{{ movie.release_year }}</strong>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% empty %}
+
+<h3 class="text-center">No Movies Available</h3>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}
